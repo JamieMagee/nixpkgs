@@ -1141,6 +1141,8 @@ in {
 
   block-io = callPackage ../development/python-modules/block-io { };
 
+  blocksat-cli = callPackage ../development/python-modules/blocksat-cli { };
+
   blspy = callPackage ../development/python-modules/blspy { };
 
   bluepy = callPackage ../development/python-modules/bluepy { };
@@ -2247,6 +2249,8 @@ in {
 
   ed25519 = callPackage ../development/python-modules/ed25519 { };
 
+  editables = callPackage ../development/python-modules/editables { };
+
   editdistance = callPackage ../development/python-modules/editdistance { };
 
   editdistance-s = callPackage ../development/python-modules/editdistance-s { };
@@ -2354,6 +2358,8 @@ in {
   eth-utils = callPackage ../development/python-modules/eth-utils { };
 
   et_xmlfile = callPackage ../development/python-modules/et_xmlfile { };
+
+  ev3dev2 = callPackage ../development/python-modules/ev3dev2 { };
 
   evdev = callPackage ../development/python-modules/evdev { };
 
@@ -4674,6 +4680,8 @@ in {
 
   names = callPackage ../development/python-modules/names { };
 
+  nampa = callPackage ../development/python-modules/nampa { };
+
   nanoleaf = callPackage ../development/python-modules/nanoleaf { };
 
   nanomsg-python = callPackage ../development/python-modules/nanomsg-python {
@@ -4986,6 +4994,8 @@ in {
   opensensemap-api = callPackage ../development/python-modules/opensensemap-api { };
 
   openshift = callPackage ../development/python-modules/openshift { };
+
+  opensimplex = callPackage ../development/python-modules/opensimplex { };
 
   opentimestamps = callPackage ../development/python-modules/opentimestamps { };
 
@@ -5404,6 +5414,8 @@ in {
   python-songpal = callPackage ../development/python-modules/python-songpal { };
 
   python-tado = callPackage ../development/python-modules/python-tado { };
+
+  pyutil = callPackage ../development/python-modules/pyutil { };
 
   pkutils = callPackage ../development/python-modules/pkutils { };
 
@@ -6272,7 +6284,9 @@ in {
 
   pynanoleaf = callPackage ../development/python-modules/pynanoleaf { };
 
-  pync = callPackage ../development/python-modules/pync { };
+  pync = callPackage ../development/python-modules/pync {
+    inherit (pkgs) coreutils which;
+  };
 
   pynest2d = callPackage ../development/python-modules/pynest2d { };
 
@@ -9463,6 +9477,8 @@ in {
   zerorpc = callPackage ../development/python-modules/zerorpc { };
 
   zetup = callPackage ../development/python-modules/zetup { };
+
+  zfec = callPackage ../development/python-modules/zfec { };
 
   zha-quirks = callPackage ../development/python-modules/zha-quirks { };
 

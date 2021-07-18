@@ -8,24 +8,33 @@
 , Security
 , ansi2html
 , installShellFiles
+, fetchpatch
 }:
 
 rustPlatform.buildRustPackage rec {
   pname = "mdcat";
-  version = "0.23.0";
+  version = "0.23.1";
 
   src = fetchFromGitHub {
     owner = "lunaryorn";
     repo = pname;
     rev = "mdcat-${version}";
-    hash = "sha256-bGXuYGQyrXa9gUEQfB7BF9K04z88r1UoM8R5gpL2nRM=";
+    sha256 = "sha256-aJ7rL+EKa5zWmCmekVuRmdeOwTmVo0IQ+GJ8Ga4iTI0=";
   };
+
+  patches = [
+    # detect wezterm through TERM again which was removed in 0.23.1
+    (fetchpatch {
+      url = "https://github.com/lunaryorn/mdcat/commit/a897b223904748a47c277f7c9a07d59e7d5c916b.patch";
+      sha256 = "sha256-tSeNyrlqoGvlfQ3xMRkvqZ7HajMvPCIk7kyt/sVjmTo=";
+    })
+  ];
 
   nativeBuildInputs = [ pkg-config asciidoctor installShellFiles ];
   buildInputs = [ openssl ]
     ++ lib.optional stdenv.isDarwin Security;
 
-  cargoSha256 = "sha256-hmv4LNk7NEYjT/5XXUpMd+xGS19KHOW+HIgsiFEWeig=";
+  cargoSha256 = "sha256-r0dJ/lDOfRzEdwySR/eEvsrO8qn4g7ZIfpekiirUp3Q=";
 
   checkInputs = [ ansi2html ];
   # Skip tests that use the network and that include files.

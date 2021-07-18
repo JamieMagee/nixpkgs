@@ -1,13 +1,8 @@
-{ lib, stdenv, fetchurl, guileSupport ? false, pkg-config ? null , guile ? null }:
+{ lib, stdenv, fetchurl, guileSupport ? false, pkg-config, guile }:
 
-assert guileSupport -> ( pkg-config != null && guile != null );
-
-let
-  version = "4.3";
-in
-stdenv.mkDerivation {
+stdenv.mkDerivation rec {
   pname = "gnumake";
-  inherit version;
+  version = "4.3";
 
   src = fetchurl {
     url = "mirror://gnu/make/make-${version}.tar.gz";

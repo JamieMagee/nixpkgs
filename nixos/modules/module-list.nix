@@ -727,6 +727,7 @@
   ./services/networking/iwd.nix
   ./services/networking/jicofo.nix
   ./services/networking/jitsi-videobridge.nix
+  ./services/networking/kea.nix
   ./services/networking/keepalived/default.nix
   ./services/networking/keybase.nix
   ./services/networking/kippo.nix
@@ -848,6 +849,7 @@
   ./services/networking/ucarp.nix
   ./services/networking/unbound.nix
   ./services/networking/unifi.nix
+  ./services/video/unifi-video.nix
   ./services/networking/v2ray.nix
   ./services/networking/vsftpd.nix
   ./services/networking/wakeonlan.nix
@@ -1103,6 +1105,7 @@
   ./tasks/network-interfaces-systemd.nix
   ./tasks/network-interfaces-scripted.nix
   ./tasks/scsi-link-power-management.nix
+  ./tasks/snapraid.nix
   ./tasks/swraid.nix
   ./tasks/trackpoint.nix
   ./tasks/powertop.nix

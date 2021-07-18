@@ -399,6 +399,10 @@ self: super: {
     dependencies = with self; [ plenary-nvim ];
   });
 
+  null-ls-nvim = super.null-ls-nvim.overrideAttrs (old: {
+    path = "null-ls.nvim";
+  });
+
   nvim-lsputils = super.nvim-lsputils.overrideAttrs (old: {
     dependencies = with self; [ popfix ];
   });
@@ -477,6 +481,12 @@ self: super: {
 
   telescope-fzf-writer-nvim = super.telescope-fzf-writer-nvim.overrideAttrs (old: {
     dependencies = with self; [ telescope-nvim ];
+  });
+
+  telescope-fzf-native-nvim = super.telescope-fzf-native-nvim.overrideAttrs (old: {
+    dependencies = with self; [ telescope-nvim ];
+    buildPhase = "make";
+    meta.platforms = lib.platforms.all;
   });
 
   telescope-fzy-native-nvim = super.telescope-fzy-native-nvim.overrideAttrs (old: {
@@ -625,7 +635,7 @@ self: super: {
             libiconv
           ];
 
-          cargoSha256 = "sha256-hcbNjp9KLJO0RANOvtopvdiK0w9ESUXk0KOTPvVcCX4=";
+          cargoSha256 = "sha256-D54R7LK4CH5S7x0g+3K1EJ4b10P7wRAIkHYwCOFJtfg=";
         };
       in
       ''
