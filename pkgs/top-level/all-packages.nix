@@ -12932,6 +12932,8 @@ with pkgs;
 
   schemes = callPackage ../applications/misc/schemes { };
 
+  sbom-tool = callPackage ../tools/admin/sbom-tool  { };
+
   scanbd = callPackage ../tools/graphics/scanbd { };
 
   scdl = callPackage ../tools/misc/scdl { };
