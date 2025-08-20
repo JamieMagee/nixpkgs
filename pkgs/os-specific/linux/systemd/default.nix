@@ -977,6 +977,7 @@ stdenv.mkDerivation (finalAttrs: {
             systemd-cryptenroll
             systemd-credentials-tpm2
             systemd-escaping
+            systemd-hardening
             systemd-initrd-btrfs-raid
             systemd-initrd-luks-fido2
             systemd-initrd-luks-keyfile

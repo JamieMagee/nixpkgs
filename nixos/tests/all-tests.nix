@@ -1412,6 +1412,7 @@ in
   systemd-cryptenroll = runTest ./systemd-cryptenroll.nix;
   systemd-credentials-tpm2 = runTest ./systemd-credentials-tpm2.nix;
   systemd-escaping = runTest ./systemd-escaping.nix;
+  systemd-hardening = runTest ./systemd-hardening.nix;
   systemd-initrd-bridge = runTest ./systemd-initrd-bridge.nix;
   systemd-initrd-btrfs-raid = runTest ./systemd-initrd-btrfs-raid.nix;
   systemd-initrd-credentials = runTest ./systemd-initrd-credentials.nix;
