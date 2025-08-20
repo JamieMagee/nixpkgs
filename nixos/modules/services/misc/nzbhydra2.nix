@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  hardeningPresets,
   ...
 }:
 let
@@ -37,28 +38,22 @@ in
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
 
+      hardening = {
+        enable = true;
+        presets = [
+          hardeningPresets.moderate
+          (hardeningPresets.allowPaths {
+            readWrite = [ cfg.dataDir ];
+          })
+        ];
+      };
+
       serviceConfig = {
         Type = "simple";
         User = "nzbhydra2";
         Group = "nzbhydra2";
         ExecStart = "${cfg.package}/bin/nzbhydra2 --nobrowser --datafolder '${cfg.dataDir}'";
         Restart = "on-failure";
-        # Hardening
-        NoNewPrivileges = true;
-        PrivateTmp = true;
-        PrivateDevices = true;
-        DevicePolicy = "closed";
-        ProtectSystem = "strict";
-        ReadWritePaths = cfg.dataDir;
-        ProtectHome = "read-only";
-        ProtectControlGroups = true;
-        ProtectKernelModules = true;
-        ProtectKernelTunables = true;
-        RestrictAddressFamilies = "AF_UNIX AF_INET AF_INET6 AF_NETLINK";
-        RestrictNamespaces = true;
-        RestrictRealtime = true;
-        RestrictSUIDSGID = true;
-        LockPersonality = true;
       };
     };
 
