@@ -81,6 +81,13 @@ let
 
         combinePackages = attrs: callPackage (import ./combine-packages.nix attrs) { };
 
+        # Workload building infrastructure
+        inherit (callPackage ./build-workload.nix { })
+          buildWorkload
+          fetchWorkloadPack
+          mkWorkloadManifest
+          ;
+
         patchNupkgs = callPackage ./patch-nupkgs.nix { };
         nugetPackageHook = callPackage ./nuget-package-hook.nix { };
         autoPatchcilHook = callPackage ../../../build-support/dotnet/auto-patchcil-hook { };
@@ -95,6 +102,11 @@ let
         dotnet_8 = recurseIntoAttrs (callPackage ./8 { });
         dotnet_9 = recurseIntoAttrs (callPackage ./9 { });
         dotnet_10 = recurseIntoAttrs (callPackage ./10 { });
+
+        # Workloads
+        workloads = recurseIntoAttrs {
+          wasm-tools = callPackage ./workloads/wasm-tools.nix { };
+        };
       }
     );
   };

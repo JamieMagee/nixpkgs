@@ -160,6 +160,16 @@ mkWrapper type (
       mkdir -p $out/bin
       ln -s $out/share/dotnet/dotnet $out/bin/dotnet
 
+    ''
+    + lib.optionalString (type == "sdk") ''
+      # Create userlocal marker file for workload support
+      # Feature band is derived from SDK version (e.g., 8.0.119 -> 8.0.100)
+      feature_band="$(echo "${version}" | sed -E 's/^([0-9]+\.[0-9]+)\.[0-9]+.*/\1.100/')"
+      mkdir -p "$out/share/dotnet/metadata/workloads/$feature_band"
+      touch "$out/share/dotnet/metadata/workloads/$feature_band/userlocal"
+    ''
+    + ''
+
       runHook postInstall
     '';
 
