@@ -1,26 +1,28 @@
 {
   lib,
   stdenv,
-  nixosTests,
   rustPlatform,
   fetchFromGitLab,
+
   versionCheckHook,
   installShellFiles,
   nix-update-script,
+
+  nixosTests,
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "reaction";
-  version = "2.2.1";
+  version = "2.3.0";
 
   src = fetchFromGitLab {
     domain = "framagit.org";
     owner = "ppom";
     repo = "reaction";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-81i0bkrf86adQWxeZgIoZp/zQQbRJwPqQqZci0ANRFw=";
+    hash = "sha256-OvNJsR9W5MlicqUpr1aOLJ7pI7H7guq1vAlC/hh1Q2o=";
   };
 
-  cargoHash = "sha256-Bf9XmlY0IMPY4Convftd0Hv8mQbYoiE8WrkkAeaS6Z8=";
+  cargoHash = "sha256-BOFZlVBKf6fjW1L1J8u7Vf+fzNJHlEtQI6YafDjlZ4U=";
 
   nativeBuildInputs = [ installShellFiles ];
 
@@ -40,13 +42,13 @@ rustPlatform.buildRustPackage (finalAttrs: {
     # flaky and fails in hydra
     "--skip=concepts::config::tests::merge_config_distinct_concurrency"
   ];
+
   cargoTestFlags = [
     # Skip integration tests for the same reason
     "--lib"
   ];
 
   postInstall = ''
-    installBin $releaseDir/ip46tables $releaseDir/nft46
     installManPage $releaseDir/reaction*.1
     installShellCompletion --cmd reaction \
       --bash $releaseDir/reaction.bash \
@@ -62,15 +64,16 @@ rustPlatform.buildRustPackage (finalAttrs: {
 
   passthru.updateScript = nix-update-script { };
   passthru.tests = { inherit (nixosTests) reaction reaction-firewall; };
+  passthru.plugins = reaction-plugins;
 
   meta = {
+    changelog = "https://framagit.org/ppom/reaction/-/releases/v${finalAttrs.version}";
     description = "Scan logs and take action: an alternative to fail2ban";
     homepage = "https://framagit.org/ppom/reaction";
-    changelog = "https://framagit.org/ppom/reaction/-/releases/v${finalAttrs.version}";
     license = lib.licenses.agpl3Plus;
     mainProgram = "reaction";
     maintainers = with lib.maintainers; [ ppom ];
-    teams = [ lib.teams.ngi ];
     platforms = lib.platforms.unix;
+    teams = [ lib.teams.ngi ];
   };
 })
