@@ -92,6 +92,7 @@
     {
       # not needed, only for manual interactive debugging
       virtualisation.memorySize = 4096;
+      virtualisation.graphics = false;
       environment.systemPackages = with pkgs; [
         btop
         sysz
