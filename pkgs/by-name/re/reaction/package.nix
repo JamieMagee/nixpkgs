@@ -22,6 +22,11 @@ rustPlatform.buildRustPackage (finalAttrs: {
     hash = "sha256-OvNJsR9W5MlicqUpr1aOLJ7pI7H7guq1vAlC/hh1Q2o=";
   };
 
+  patches = [
+    # remove patch in next tagged version
+    ./add-support-for-macos.patch
+  ];
+
   cargoHash = "sha256-BOFZlVBKf6fjW1L1J8u7Vf+fzNJHlEtQI6YafDjlZ4U=";
 
   nativeBuildInputs = [ installShellFiles ];
