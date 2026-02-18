@@ -1,10 +1,10 @@
 {
-  stdenv,
-  wrapQtAppsHook,
-  makeDesktopItem,
-  python3,
   lib,
+  stdenv,
   pulseaudio,
+  makeDesktopItem,
+  qt5,
+  python3,
 }:
 
 let
@@ -26,17 +26,15 @@ stdenv.mkDerivation {
   pname = "qpaeq";
   inherit (pulseaudio) version src;
 
-  nativeBuildInputs = [ wrapQtAppsHook ];
+  nativeBuildInputs = [ qt5.wrapQtAppsHook ];
 
   buildInputs = [
-
     (python3.withPackages (
       ps: with ps; [
         pyqt5
         dbus-python
       ]
     ))
-
   ];
 
   dontBuild = true;

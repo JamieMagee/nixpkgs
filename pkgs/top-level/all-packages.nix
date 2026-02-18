@@ -8326,8 +8326,6 @@ with pkgs;
 
   # PulseAudio daemons
 
-  qpaeq = libsForQt5.callPackage ../servers/pulseaudio/qpaeq.nix { };
-
   pulseaudioFull = pulseaudio.override {
     x11Support = true;
     jackaudioSupport = true;
