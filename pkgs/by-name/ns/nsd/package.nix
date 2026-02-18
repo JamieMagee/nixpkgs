@@ -7,33 +7,33 @@
   pkg-config,
   systemdMinimal,
   nixosTests,
-  bind8Stats ? false,
-  checking ? false,
-  ipv6 ? true,
-  mmap ? false,
-  minimalResponses ? true,
-  nsec3 ? true,
-  ratelimit ? false,
-  recvmmsg ? false,
-  rootServer ? false,
-  rrtypes ? false,
-  zoneStats ? false,
-  withSystemd ? lib.meta.availableOn stdenv.hostPlatform systemdMinimal,
-  configFile ? "/etc/nsd/nsd.conf",
+  config,
+  # set default options for config values
+  # maybe TODO: move these into a proper module
+  # (after https://github.com/NixOS/nixpkgs/pull/489889?)
+  bind8Stats ? config.nsd.bind8Stats or false,
+  checking ? config.nsd.checking or false,
+  ipv6 ? config.nsd.ipv6 or true,
+  mmap ? config.nsd.mmap or false,
+  minimalResponses ? config.nsd.minimalResponses or true,
+  nsec3 ? config.nsd.nsec3 or true,
+  ratelimit ? config.nsd.ratelimit or false,
+  recvmmsg ? config.nsd.recvmmsg or false,
+  rootServer ? config.nsd.rootServer or false,
+  rrtypes ? config.nsd.rrtypes or false,
+  zoneStats ? config.nsd.zoneStats or false,
+  withSystemd ? config.nsd.withSystemd or (lib.meta.availableOn stdenv.hostPlatform systemdMinimal),
+  configFile ? config.nsd.configFile or "/etc/nsd/nsd.conf",
 }:
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation (finalAttrs: {
   pname = "nsd";
   version = "4.12.0";
 
   src = fetchurl {
-    url = "https://www.nlnetlabs.nl/downloads/${pname}/${pname}-${version}.tar.gz";
-    sha256 = "sha256-+ezCz3m6UFgPLfYpGO/EQAhMW/EQV9tEwZqpZDzUteg=";
+    url = "https://www.nlnetlabs.nl/downloads/nsd/nsd-${finalAttrs.version}.tar.gz";
+    hash = "sha256-+ezCz3m6UFgPLfYpGO/EQAhMW/EQV9tEwZqpZDzUteg=";
   };
-
-  prePatch = ''
-    substituteInPlace nsd-control-setup.sh.in --replace openssl ${openssl}/bin/openssl
-  '';
 
   nativeBuildInputs = lib.optionals withSystemd [
     pkg-config
@@ -48,6 +48,15 @@ stdenv.mkDerivation rec {
   ];
 
   enableParallelBuilding = true;
+
+  # TODO: prePatch doesn't actually get executed because patchPhase is overridden
+  prePatch = ''
+    substituteInPlace nsd-control-setup.sh.in --replace openssl ${openssl}/bin/openssl
+  '';
+
+  patchPhase = ''
+    sed 's@$(INSTALL_DATA) nsd.conf.sample $(DESTDIR)$(nsdconfigfile).sample@@g' -i Makefile.in
+  '';
 
   configureFlags =
     let
@@ -72,10 +81,6 @@ stdenv.mkDerivation rec {
       "--with-configdir=etc/nsd"
     ];
 
-  patchPhase = ''
-    sed 's@$(INSTALL_DATA) nsd.conf.sample $(DESTDIR)$(nsdconfigfile).sample@@g' -i Makefile.in
-  '';
-
   passthru.tests = {
     inherit (nixosTests) nsd;
   };
@@ -86,4 +91,4 @@ stdenv.mkDerivation rec {
     license = lib.licenses.bsd3;
     platforms = lib.platforms.unix;
   };
-}
+})
