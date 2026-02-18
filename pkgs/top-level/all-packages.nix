@@ -8108,10 +8108,6 @@ with pkgs;
   };
   cassandra = cassandra_4;
 
-  apache-jena = callPackage ../servers/nosql/apache-jena/binary.nix {
-    java = jre;
-  };
-
   apache-jena-fuseki = callPackage ../servers/nosql/apache-jena/fuseki-binary.nix {
     java = jre;
   };

@@ -2,7 +2,7 @@
   lib,
   stdenv,
   fetchurl,
-  java,
+  jre,
   makeWrapper,
 }:
 
@@ -19,7 +19,7 @@ stdenv.mkDerivation rec {
   installPhase = ''
     cp -r . "$out"
     for i in "$out"/bin/*; do
-      wrapProgram "$i" --prefix "PATH" : "${java}/bin/"
+      wrapProgram "$i" --prefix "PATH" : "${jre}/bin/"
     done
   '';
   meta = {
