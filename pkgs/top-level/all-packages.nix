@@ -8326,8 +8326,6 @@ with pkgs;
 
   # PulseAudio daemons
 
-  hsphfpd = callPackage ../servers/pulseaudio/hsphfpd.nix { };
-
   qpaeq = libsForQt5.callPackage ../servers/pulseaudio/qpaeq.nix { };
 
   pulseaudioFull = pulseaudio.override {
