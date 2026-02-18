@@ -2,21 +2,22 @@
   lib,
   callPackage,
   writeShellScriptBin,
-  beamPackages,
+  beam,
   mix2nix,
   fetchFromGitHub,
   git,
   cmake,
   nixosTests,
   nixfmt,
-  mobilizon-frontend,
+  mobilizon-frontend ? callPackage ./frontend.nix { },
 }:
 
 let
-  inherit (beamPackages) mixRelease buildMix;
+  beamPackages = beam.packages.erlang_27.extend (self: super: { elixir = self.elixir_1_18; });
+
   common = callPackage ./common.nix { };
 in
-mixRelease rec {
+beamPackages.mixRelease rec {
   inherit (common) pname version src;
 
   # A typo that is a build failure on elixir 1.18
@@ -59,7 +60,7 @@ mixRelease rec {
         });
 
         # The remainder are Git dependencies (and their deps) that are not supported by mix2nix currently.
-        web_push_encryption = buildMix {
+        web_push_encryption = beamPackages.buildMix {
           name = "web_push_encryption";
           version = "0.3.1";
           src = fetchFromGitHub {
@@ -73,7 +74,7 @@ mixRelease rec {
             jose
           ];
         };
-        icalendar = buildMix rec {
+        icalendar = beamPackages.buildMix rec {
           name = "icalendar";
           version = "1.1.2";
           src = fetchFromGitHub {
@@ -88,7 +89,7 @@ mixRelease rec {
             timex
           ];
         };
-        rajska = buildMix rec {
+        rajska = beamPackages.buildMix rec {
           name = "rajska";
           version = "1.3.3";
           src = fetchFromGitHub {
@@ -106,7 +107,7 @@ mixRelease rec {
             mock
           ];
         };
-        exkismet = buildMix rec {
+        exkismet = beamPackages.buildMix rec {
           name = "exkismet";
           version = "0.0.3";
           src = fetchFromGitHub {

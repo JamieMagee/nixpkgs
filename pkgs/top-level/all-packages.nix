@@ -1847,11 +1847,6 @@ with pkgs;
 
   mkspiffs-presets = recurseIntoAttrs (callPackages ../by-name/mk/mkspiffs/presets.nix { });
 
-  mobilizon = callPackage ../servers/mobilizon {
-    beamPackages = beam.packages.erlang_27.extend (self: super: { elixir = self.elixir_1_18; });
-    mobilizon-frontend = callPackage ../servers/mobilizon/frontend.nix { };
-  };
-
   nltk-data = recurseIntoAttrs (callPackage ../tools/text/nltk-data { });
 
   seabios-coreboot = seabios.override { ___build-type = "coreboot"; };
