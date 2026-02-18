@@ -28,14 +28,14 @@
   nameSuffix ? "",
 }:
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation (finalAttrs: {
   pname = "icinga2${nameSuffix}";
   version = "2.15.1";
 
   src = fetchFromGitHub {
     owner = "icinga";
     repo = "icinga2";
-    rev = "v${version}";
+    rev = "v${finalAttrs.version}";
     hash = "sha256-w/eD07yzBm3x4G74OuGwkmpBzj63UoklmcKxVi5lx8E=";
   };
 
@@ -118,9 +118,9 @@ stdenv.mkDerivation rec {
     ''}
   '';
 
-  vim = runCommand "vim-icinga2-${version}" { pname = "vim-icinga2"; } ''
+  vim = runCommand "vim-icinga2-${finalAttrs.version}" { pname = "vim-icinga2"; } ''
     mkdir -p $out/share/vim-plugins
-    cp -r "${src}/tools/syntax/vim" $out/share/vim-plugins/icinga2
+    cp -r "${finalAttrs.src}/tools/syntax/vim" $out/share/vim-plugins/icinga2
   '';
 
   meta = {
@@ -133,4 +133,4 @@ stdenv.mkDerivation rec {
       helsinki-Jo
     ];
   };
-}
+})
