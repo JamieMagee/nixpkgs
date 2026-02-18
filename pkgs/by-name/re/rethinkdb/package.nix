@@ -1,27 +1,29 @@
 {
   lib,
-  stdenv,
+  clangStdenv,
   fetchurl,
   which,
   m4,
-  protobuf,
+  protobuf_21,
   boost,
   zlib,
   curl,
   openssl,
   icu,
   jemalloc,
-  libtool,
+  cctools,
   python3Packages,
   makeWrapper,
 }:
-
-stdenv.mkDerivation rec {
+let
+  stdenv = clangStdenv;
+in
+stdenv.mkDerivation (finalAttrs: {
   pname = "rethinkdb";
   version = "2.4.4";
 
   src = fetchurl {
-    url = "https://download.rethinkdb.com/repository/raw/dist/${pname}-${version}.tgz";
+    url = "https://download.rethinkdb.com/repository/raw/dist/rethinkdb-${finalAttrs.version}.tgz";
     hash = "sha256-UJEjdgK2KDDbLLParKarNGMjI3QeZxDC8N5NhPRCcR8=";
   };
 
@@ -44,7 +46,7 @@ stdenv.mkDerivation rec {
   makeFlags = [ "rethinkdb" ];
 
   buildInputs = [
-    protobuf
+    protobuf_21
     boost
     zlib
     curl
@@ -52,7 +54,7 @@ stdenv.mkDerivation rec {
     icu
   ]
   ++ lib.optional (!stdenv.hostPlatform.isDarwin) jemalloc
-  ++ lib.optional stdenv.hostPlatform.isDarwin libtool;
+  ++ lib.optional stdenv.hostPlatform.isDarwin cctools;
 
   nativeBuildInputs = [
     which
@@ -84,4 +86,4 @@ stdenv.mkDerivation rec {
       thoughtpolice
     ];
   };
-}
+})
