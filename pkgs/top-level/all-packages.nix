@@ -3259,10 +3259,6 @@ with pkgs;
   playwright-driver = (callPackage ../development/web/playwright/driver.nix { }).playwright-core;
   playwright-test = (callPackage ../development/web/playwright/driver.nix { }).playwright-test;
 
-  plex = callPackage ../servers/plex { };
-
-  plexRaw = callPackage ../servers/plex/raw.nix { };
-
   tabview = with python3Packages; toPythonApplication tabview;
 
   inherit (callPackage ../development/tools/pnpm { })
