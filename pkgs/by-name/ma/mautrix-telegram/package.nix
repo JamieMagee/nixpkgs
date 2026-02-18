@@ -23,14 +23,14 @@ let
     };
   };
 in
-python.pkgs.buildPythonPackage rec {
+python.pkgs.buildPythonPackage (finalAttrs: {
   pname = "mautrix-telegram";
   version = "0.15.3";
 
   src = fetchFromGitHub {
     owner = "mautrix";
     repo = "telegram";
-    tag = "v${version}";
+    tag = "v${finalAttrs.version}";
     hash = "sha256-w3BqWyAJV/lZPoOFDzxhootpw451lYruwM9efwS6cEc=";
   };
 
@@ -90,4 +90,4 @@ python.pkgs.buildPythonPackage rec {
     ];
     mainProgram = "mautrix-telegram";
   };
-}
+})
