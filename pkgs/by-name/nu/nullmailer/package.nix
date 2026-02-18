@@ -1,20 +1,17 @@
 {
-  stdenv,
+  gccStdenv,
   fetchurl,
   lib,
   tls ? true,
-  gnutls ? null,
+  gnutls,
 }:
 
-assert tls -> gnutls != null;
-
-stdenv.mkDerivation rec {
-
+gccStdenv.mkDerivation (finalAttrs: {
   version = "2.2";
   pname = "nullmailer";
 
   src = fetchurl {
-    url = "https://untroubled.org/nullmailer/nullmailer-${version}.tar.gz";
+    url = "https://untroubled.org/nullmailer/nullmailer-${finalAttrs.version}.tar.gz";
     sha256 = "0md8cf90fl2yf3zh9njjy42a673v4j4ygyq95xg7fzkygdigm1lq";
   };
 
@@ -55,4 +52,4 @@ stdenv.mkDerivation rec {
     platforms = lib.platforms.all;
     maintainers = [ ];
   };
-}
+})
