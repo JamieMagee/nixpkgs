@@ -1,15 +1,15 @@
 {
   lib,
   stdenv,
-  nodejs-slim,
+  nodejs-slim_22,
   bundlerEnv,
   nixosTests,
-  yarn-berry,
+  yarn-berry_4,
   callPackage,
-  ruby,
+  ruby_3_3,
   writeShellScript,
   brotli,
-  python3,
+  python311,
 
   # Allow building a fork or custom version of Mastodon:
   pname ? "mastodon",
@@ -21,6 +21,12 @@
   yarnHash ? srcOverride.yarnHash,
   yarnMissingHashes ? srcOverride.yarnMissingHashes,
 }:
+let
+  nodejs-slim = nodejs-slim_22;
+  python3 = python311;
+  ruby = ruby_3_3;
+  yarn-berry = yarn-berry_4.override { nodejs = nodejs-slim; };
+in
 
 stdenv.mkDerivation rec {
   inherit pname version;
