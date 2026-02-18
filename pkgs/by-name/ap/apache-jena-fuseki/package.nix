@@ -2,7 +2,7 @@
   lib,
   stdenv,
   fetchurl,
-  java,
+  jre,
   coreutils,
   which,
   makeWrapper,
@@ -28,7 +28,7 @@ stdenv.mkDerivation rec {
       # It is necessary to set the default $FUSEKI_BASE directory to a writable location
       # By default it points to $FUSEKI_HOME/run which is in the nix store
       wrapProgram "$i" \
-        --prefix "PATH" : "${java}/bin/:${coreutils}/bin:${which}/bin" \
+        --prefix "PATH" : "${jre}/bin/:${coreutils}/bin:${which}/bin" \
         --set-default "FUSEKI_HOME" "$out" \
         --run "if [ -z \"\$FUSEKI_BASE\" ]; then export FUSEKI_BASE=\"\$HOME/.local/fuseki\" ; mkdir -p \"\$HOME/.local/fuseki\" ; fi" \
         ;
@@ -36,7 +36,7 @@ stdenv.mkDerivation rec {
   '';
   passthru = {
     tests = {
-      basic-test = pkgs.callPackage ./fuseki-test.nix { };
+      basic-test = pkgs.callPackage ./basic-test.nix { };
     };
   };
   meta = {
