@@ -8377,7 +8377,6 @@ with pkgs;
     boost = boost179.override { enableShared = false; };
   };
 
-  influxdb = callPackage ../servers/nosql/influxdb { };
   influxdb2-server = callPackage ../servers/nosql/influxdb2 { };
   influxdb2-cli = callPackage ../servers/nosql/influxdb2/cli.nix { };
   influxdb2-token-manipulator = callPackage ../servers/nosql/influxdb2/token-manipulator.nix { };

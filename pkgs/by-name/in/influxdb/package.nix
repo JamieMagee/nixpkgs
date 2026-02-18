@@ -24,7 +24,7 @@ let
     };
     patches = [
       # https://github.com/influxdata/flux/pull/5542
-      ../influxdb2/fix-unsigned-char.patch
+      ./fix-unsigned-char.patch
     ];
 
     # Don't fail on missing code documentation and allow dead_code/lifetime/unused_assignments warnings
