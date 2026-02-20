@@ -1386,8 +1386,10 @@ in
   rasdaemon = runTest ./rasdaemon.nix;
   rathole = runTest ./rathole.nix;
   rauc = runTest ./rauc.nix;
-  reaction = runTest ./reaction.nix;
-  reaction-firewall = runTest ./reaction-firewall.nix;
+  reaction = import ./reaction {
+    inherit (pkgs) lib;
+    inherit runTest;
+  };
   readarr = runTest ./readarr.nix;
   readeck = runTest ./readeck.nix;
   realm = runTest ./realm.nix;

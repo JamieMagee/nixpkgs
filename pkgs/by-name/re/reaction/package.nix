@@ -71,7 +71,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
   passthru = {
     inherit (callPackage ./plugins { }) mkReactionPlugin plugins;
     updateScript = nix-update-script { };
-    tests = { inherit (nixosTests) reaction reaction-firewall; };
+    tests = nixosTests.reaction;
   };
 
   meta = {

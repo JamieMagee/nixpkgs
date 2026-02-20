@@ -10,8 +10,14 @@
     services.reaction = {
       enable = true;
       stopForFirewall = false;
-      # example.jsonnet/example.yml can be copied and modified from ${pkgs.reaction}/share/examples
+      # example.jsonnet or example.yml can be copied and modified from ${pkgs.reaction}/share/examples
       settingsFiles = [ "${pkgs.reaction}/share/examples/example.jsonnet" ];
+      settings = {
+        # In the qemu vm `run0 ls` as root prints nothing, so we can't use it
+        # see https://reaction.ppom.me/reference.html#systemd
+        plugins.ipset.systemd = false;
+        plugins.virtual.systemd = false;
+      };
       runAsRoot = false;
     };
     services.openssh.enable = true;
