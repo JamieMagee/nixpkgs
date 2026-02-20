@@ -4,28 +4,43 @@
   ...
 }:
 {
-  name = "reaction";
+  name = "reaction-core-plugins";
 
-  nodes.server = _: {
+  nodes.server = args: {
     services.reaction = {
       enable = true;
       stopForFirewall = false;
-      # example.jsonnet or example.yml can be copied and modified from ${pkgs.reaction}/share/examples
-      settingsFiles = [ "${pkgs.reaction}/share/examples/example.jsonnet" ];
       runAsRoot = false;
+      settings = import ./settings.nix args;
+      /*
+        # NOTE: When runAsRoot is true, disable run0
+        settings = {
+          # In the qemu vm `run0 ls` as root prints nothing, so we can't use it
+          # see https://reaction.ppom.me/reference.html#systemd
+          plugins.ipset.systemd = false;
+          plugins.virtual.systemd = false;
+        };
+      */
+    };
+    /*
+      NOTE:
+        - if reaction is run as non-root, the plugins need these capabilities, remove these if runAsRoot is true
+        - CAP_DAC_READ_SEARCH is for journalctl for accessing ssh logs
+        - useful tools: capable (from package bcc), captree, getpcaps (from libpcap)
+    */
+    systemd.services.reaction.serviceConfig = {
+      CapabilityBoundingSet = [
+        "CAP_NET_ADMIN"
+        "CAP_NET_RAW"
+        "CAP_DAC_READ_SEARCH"
+      ];
+      AmbientCapabilities = [
+        "CAP_NET_ADMIN"
+        "CAP_NET_RAW"
+        "CAP_DAC_READ_SEARCH"
+      ];
     };
     services.openssh.enable = true;
-    # If not running as root you need to give the reaction user and service the proper permissions
-
-    # allows reading journal logs of processess
-    users.users.reaction.extraGroups = [ "systemd-journal" ];
-
-    # allows modifying ip firewall rules
-    systemd.services.reaction.unitConfig.ConditionCapability = "CAP_NET_ADMIN";
-    systemd.services.reaction.serviceConfig = {
-      CapabilityBoundingSet = [ "CAP_NET_ADMIN" ];
-      AmbientCapabilities = [ "CAP_NET_ADMIN" ];
-    };
 
     users.users.nixos.isNormalUser = true; # neeeded to establish a ssh connection, by default root login is succeeding without any password
   };
