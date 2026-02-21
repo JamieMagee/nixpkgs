@@ -1797,7 +1797,8 @@
       ];
     "fish_audio" =
       ps: with ps; [
-      ]; # missing inputs: fish-audio-sdk
+        fish-audio-sdk
+      ];
     "fitbit" =
       ps: with ps; [
         fitbit
@@ -7414,6 +7415,7 @@
     "firefly_iii"
     "fireservicerota"
     "firmata"
+    "fish_audio"
     "fitbit"
     "fivem"
     "fjaraskupan"
