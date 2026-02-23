@@ -1,6 +1,7 @@
 {
   lib,
   stdenv,
+  callPackage,
   rustPlatform,
   fetchFromGitLab,
 
@@ -67,9 +68,11 @@ rustPlatform.buildRustPackage (finalAttrs: {
   versionCheckProgramArg = "--version";
   doInstallCheck = true;
 
-  passthru.updateScript = nix-update-script { };
-  passthru.tests = { inherit (nixosTests) reaction reaction-firewall; };
-  passthru.plugins = reaction-plugins;
+  passthru = {
+    inherit (callPackage ./plugins { }) mkReactionPlugin plugins;
+    updateScript = nix-update-script { };
+    tests = { inherit (nixosTests) reaction reaction-firewall; };
+  };
 
   meta = {
     changelog = "https://framagit.org/ppom/reaction/-/releases/v${finalAttrs.version}";
