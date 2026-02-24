@@ -23,7 +23,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   sourceRoot = ".";
 
-  patches = lib.optionals stdenv.hostPlatform.isWindows [
+  patches = lib.optionals (stdenv.hostPlatform.isWindows || stdenv.hostPlatform.isCygwin) [
     ./0001-Add-exe-extension-for-MS-Windows-binaries.patch
   ];
 
@@ -70,6 +70,10 @@ stdenv.mkDerivation (finalAttrs: {
     "CFLAGS+=-DHAVE_GETRESUID=0"
     "CFLAGS+=-DHAVE_GETEUID=0"
     "CFLAGS+=-DHAVE_FCHMOD=0"
+  ]
+  ++ lib.optionals stdenv.hostPlatform.isCygwin [
+    "CFLAGS+=-DHAVE_GETRESUID=0"
+    "CFLAGS+=-DHAVE_ISSETUGID=1"
   ]
   ++ lib.optionals stdenv.hostPlatform.isFreeBSD [
     "CFLAGS+=-DNETBSD_INSPIRED=0"
