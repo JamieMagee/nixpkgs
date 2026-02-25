@@ -10,8 +10,9 @@ let
   # Partition environment variables into regular and file-based (_FILE suffix)
   envVarToCredName = varName: lib.toLower varName;
   partitionEnv =
-    env:
+    allEnv:
     let
+      env = lib.filterAttrs (_name: value: value != null) allEnv;
       regular = lib.filterAttrs (name: _value: !(lib.hasSuffix "_FILE" name)) env;
       fileBased = lib.filterAttrs (name: _value: lib.hasSuffix "_FILE" name) env;
       fileBasedTransformed = lib.mapAttrs' (
