@@ -17,12 +17,15 @@ buildGoModule rec {
     owner = "superfly";
     repo = "flyctl";
     rev = "v${version}";
-    leaveDotGit = true;
-    hash = "sha256-hzKKCwGTaz1MFQ1+F9piNBnaEDZJwJqoerR1c/uzSsQ=";
+    postCheckout = ''
+      cd "$out"
+      git rev-parse HEAD > COMMIT
+    '';
+    hash = "sha256-sH2owlQOB2rRLSKbj6LWwQeuYJUjdqiDxCRKMEBpUbU=";
   };
 
   proxyVendor = true;
-  vendorHash = "sha256-ezGA1LGwQVFMzV/Ogj26pooD06O7FNTXMrYWkv6AwWM=";
+  vendorHash = "sha256-AaUscVllqhDivsAc5SDbfiXDWPs/x1f7kqdr6Qhf8mg=";
 
   subPackages = [ "." ];
 
@@ -39,12 +42,15 @@ buildGoModule rec {
     git
   ];
 
-  patches = [ ./disable-auto-update.patch ];
+  patches = [
+    ./disable-auto-update.patch
+    ./set-commit.patch
+  ];
 
   preBuild = ''
-    # Embed VCS Infos
-    export GOFLAGS="$GOFLAGS -buildvcs=true"
-
+    export GOFLAGS="$GOFLAGS -buildvcs=false"
+    substituteInPlace internal/buildinfo/buildinfo.go \
+      --replace '@commit@' "$(cat COMMIT)"
     GOOS= GOARCH= CGO_ENABLED=0 go generate ./...
   '';
 
