@@ -17,6 +17,9 @@ in
   node.pkgsReadOnly = false;
 
   nodes = {
+    machine_simple = {
+      services.n8n.enable = true;
+    };
     machine_configured = {
       services.n8n = {
         enable = true;
@@ -51,6 +54,11 @@ in
   };
 
   testScript = ''
+    machine_simple.wait_for_unit("n8n.service")
+    machine_simple.wait_for_console_text("Editor is now accessible via")
+    machine_simple.succeed("curl --fail -vvv http://localhost:${toString port}/")
+
+
     machine_configured.wait_for_unit("n8n.service")
     machine_configured.wait_for_console_text("Editor is now accessible via")
 
