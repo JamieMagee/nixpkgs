@@ -79,6 +79,8 @@ buildPythonPackage (finalAttrs: {
     ];
   };
 
+  pythonImportsCheck = [ "pymilvus" ];
+
   nativeCheckInputs = [
     grpcio-testing
     pytest-asyncio
@@ -88,13 +90,13 @@ buildPythonPackage (finalAttrs: {
   ]
   ++ finalAttrs.passthru.optional-dependencies.bulk_writer;
 
-  pythonImportsCheck = [ "pymilvus" ];
-
   disabledTests = [
     # tries to read .git
     "test_get_commit"
+
     # requires network access
     "test_deadline_exceeded_shows_connecting_state"
+
     # mock issue in sandbox
     "test_milvus_client_creates_unbound_alias"
   ];
@@ -102,6 +104,7 @@ buildPythonPackage (finalAttrs: {
   disabledTestPaths = [
     # requires running milvus server
     "examples/"
+
     # tries to write to nix store
     "tests/test_bulk_writer_stage.py"
   ];
@@ -109,7 +112,7 @@ buildPythonPackage (finalAttrs: {
   meta = {
     description = "Python SDK for Milvus";
     homepage = "https://github.com/milvus-io/pymilvus";
-    changelog = "https://github.com/milvus-io/pymilvus/releases/tag/v${finalAttrs.version}";
+    changelog = "https://github.com/milvus-io/pymilvus/releases/tag/${finalAttrs.src.tag}";
     license = lib.licenses.mit;
     maintainers = with lib.maintainers; [ happysalada ];
   };
