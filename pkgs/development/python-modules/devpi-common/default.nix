@@ -47,6 +47,7 @@ buildPythonPackage rec {
     changelog = "https://github.com/devpi/devpi/blob/common-${version}/common/CHANGELOG";
     license = lib.licenses.mit;
     maintainers = with lib.maintainers; [
+      confus
       lewo
       makefu
     ];
