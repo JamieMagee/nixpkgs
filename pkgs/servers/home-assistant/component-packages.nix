@@ -4738,7 +4738,8 @@
       ];
     "prana" =
       ps: with ps; [
-      ]; # missing inputs: prana-api-client
+        prana-api-client
+      ];
     "private_ble_device" =
       ps: with ps; [
         aioesphomeapi
@@ -7851,6 +7852,7 @@
     "portainer"
     "powerfox"
     "powerwall"
+    "prana"
     "private_ble_device"
     "probe_plus"
     "profiler"
