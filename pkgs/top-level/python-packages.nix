@@ -19397,6 +19397,8 @@ self: super: with self; {
 
   transformers = callPackage ../development/python-modules/transformers { };
 
+  transformers_4 = callPackage ../development/python-modules/transformers/4.nix { };
+
   transforms3d = callPackage ../development/python-modules/transforms3d { };
 
   transitions = callPackage ../development/python-modules/transitions { };
