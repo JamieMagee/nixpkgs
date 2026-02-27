@@ -1100,51 +1100,17 @@ in
   });
 
   tree-sitter-http = prev.tree-sitter-http.overrideAttrs (old: {
-    strictDeps = false;
-    propagatedBuildInputs =
-      let
-        # HACK: luarocks-nix puts rockspec build dependencies in the nativeBuildInputs,
-        # but that doesn't seem to work
-        lua = lib.head old.propagatedBuildInputs;
-      in
-      old.propagatedBuildInputs
-      ++ [
-        lua.pkgs.luarocks-build-treesitter-parser
-        tree-sitter
-      ];
-
     nativeBuildInputs = old.nativeBuildInputs or [ ] ++ [
+      tree-sitter
       writableTmpDirAsHomeHook
     ];
   });
 
   tree-sitter-norg = prev.tree-sitter-norg.overrideAttrs (old: {
-    propagatedBuildInputs =
-      let
-        # HACK: luarocks-nix puts rockspec build dependencies in the nativeBuildInputs,
-        # but that doesn't seem to work
-        lua = lib.head old.propagatedBuildInputs;
-      in
-      old.propagatedBuildInputs
-      ++ [
-        lua.pkgs.luarocks-build-treesitter-parser-cpp
-      ];
-
     meta.broken = lua.luaversion != "5.1";
   });
 
   tree-sitter-orgmode = prev.tree-sitter-orgmode.overrideAttrs (old: {
-    strictDeps = false;
-    propagatedBuildInputs =
-      let
-        # HACK: luarocks-nix puts rockspec build dependencies in the nativeBuildInputs,
-        # but that doesn't seem to work
-        lua = lib.head old.propagatedBuildInputs;
-      in
-      old.propagatedBuildInputs
-      ++ [
-        lua.pkgs.luarocks-build-treesitter-parser
-      ];
     nativeBuildInputs = old.nativeBuildInputs or [ ] ++ [
       writableTmpDirAsHomeHook
       tree-sitter
