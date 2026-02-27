@@ -842,10 +842,6 @@ in
     '';
   });
 
-  nfd = prev.nfd.overrideAttrs {
-    strictDeps = false;
-  };
-
   nlua = prev.nlua.overrideAttrs {
 
     # patchShebang removes the nvim in nlua's shebang so we hardcode one
