@@ -1398,6 +1398,7 @@ in
   refind = runTest ./refind.nix;
   remark42 = runTest ./remark42.nix;
   renovate = runTest ./renovate.nix;
+  repath-studio = runTest ./repath-studio.nix;
   replace-dependencies = handleTest ./replace-dependencies { };
   reposilite = runTest ./reposilite.nix;
   restartByActivationScript = runTest ./restart-by-activation-script.nix;
