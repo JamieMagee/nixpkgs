@@ -87,6 +87,8 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
   passthru = unwrapped.passthru // {
     inherit unwrapped;
+    withWorkloads =
+      workloadIds: callPackage (import ./with-workloads.nix finalAttrs.finalPackage workloadIds) { };
     tests =
       let
         mkDotnetTest =
