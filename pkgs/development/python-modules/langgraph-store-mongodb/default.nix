@@ -12,7 +12,7 @@
   langchain-mongodb,
 }:
 
-buildPythonPackage rec {
+buildPythonPackage (finalAttrs: {
   pname = "langgraph-store-mongodb";
   version = "0.2.0";
   pyproject = true;
@@ -20,11 +20,11 @@ buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "langchain-ai";
     repo = "langchain-mongodb";
-    tag = "libs/langgraph-store-mongodb/v${version}";
+    tag = "libs/langgraph-store-mongodb/v${finalAttrs.version}";
     hash = "sha256-IXISxo3mC0/FkjGdHTmin6z/fk71ecto+L+VZ6VFdeE=";
   };
 
-  sourceRoot = "${src.name}/libs/langgraph-store-mongodb";
+  sourceRoot = "${finalAttrs.src.name}/libs/langgraph-store-mongodb";
 
   build-system = [
     hatchling
@@ -55,8 +55,8 @@ buildPythonPackage rec {
   meta = {
     description = "Integrations between MongoDB, Atlas, LangChain, and LangGraph";
     homepage = "https://github.com/langchain-ai/langchain-mongodb/tree/main/libs/langgraph-store-mongodb";
-    changelog = "https://github.com/langchain-ai/langchain-mongodb/releases/tag/${src.tag}";
+    changelog = "https://github.com/langchain-ai/langchain-mongodb/releases/tag/${finalAttrs.src.tag}";
     license = lib.licenses.mit;
     maintainers = with lib.maintainers; [ sarahec ];
   };
-}
+})
