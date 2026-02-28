@@ -512,6 +512,7 @@ in
       externallyConfiguredDrivers = mkOption {
         type = types.listOf types.str;
         internal = true;
+        default = [ ];
         description = ''
           A list of externally configured drivers (by name). Modules that
           manually configure their drivers should add said drivers to this
