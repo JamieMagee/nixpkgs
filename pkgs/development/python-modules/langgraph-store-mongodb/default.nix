@@ -2,6 +2,7 @@
   lib,
   buildPythonPackage,
   fetchFromGitHub,
+  nix-update-script,
 
   # build-system
   hatchling,
@@ -13,14 +14,14 @@
 
 buildPythonPackage rec {
   pname = "langgraph-store-mongodb";
-  version = "0.1.1";
+  version = "0.2.0";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "langchain-ai";
     repo = "langchain-mongodb";
     tag = "libs/langgraph-store-mongodb/v${version}";
-    hash = "sha256-/dafQK6iy85rMt7FMVb3ssaIop9JjjrwajaHAfBUp7g=";
+    hash = "sha256-IXISxo3mC0/FkjGdHTmin6z/fk71ecto+L+VZ6VFdeE=";
   };
 
   sourceRoot = "${src.name}/libs/langgraph-store-mongodb";
@@ -39,6 +40,17 @@ buildPythonPackage rec {
   doCheck = false;
 
   pythonImportsCheck = [ "langgraph.store.mongodb" ];
+
+  # updater script selects wrong tag
+  passthru = {
+    skipBulkUpdate = true;
+    updateScript = nix-update-script {
+      extraArgs = [
+        "-vr"
+        "libs/langgraph-store-mongodb/v(.*)"
+      ];
+    };
+  };
 
   meta = {
     description = "Integrations between MongoDB, Atlas, LangChain, and LangGraph";
