@@ -5493,6 +5493,8 @@ self: super: with self; {
 
   fints = callPackage ../development/python-modules/fints { };
 
+  fints_4 = callPackage ../development/python-modules/fints/4.nix { };
+
   finvizfinance = callPackage ../development/python-modules/finvizfinance { };
 
   fiona = callPackage ../development/python-modules/fiona { };
@@ -11308,6 +11310,8 @@ self: super: with self; {
   omemo = callPackage ../development/python-modules/omemo { };
 
   omemo-dr = callPackage ../development/python-modules/omemo-dr { };
+
+  omitempty = callPackage ../development/python-modules/omitempty { };
 
   omnikinverter = callPackage ../development/python-modules/omnikinverter { };
 
@@ -21189,6 +21193,8 @@ self: super: with self; {
   yara-x = callPackage ../development/python-modules/yara-x { };
 
   yaramod = callPackage ../development/python-modules/yaramod { };
+
+  yardstick = callPackage ../development/python-modules/yardstick { };
 
   yarg = callPackage ../development/python-modules/yarg { };
 
