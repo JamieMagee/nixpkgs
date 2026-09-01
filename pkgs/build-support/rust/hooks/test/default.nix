@@ -101,4 +101,25 @@
     cargoCheckType = "release";
     doCheck = true;
   };
+
+  bindgenHook = stdenv.mkDerivation {
+    name = "test-bindgenHook";
+    dontUnpack = true;
+    nativeBuildInputs = [ rustPlatform.bindgenHook ];
+    buildPhase = ''
+      runHook preBuild
+      ${
+        if stdenv.buildPlatform != stdenv.hostPlatform then
+          ''
+            [[ " $BINDGEN_EXTRA_CLANG_ARGS " == *" --target=${stdenv.hostPlatform.config} "* ]]
+          ''
+        else
+          ''
+            [[ " $BINDGEN_EXTRA_CLANG_ARGS " != *" --target="* ]]
+          ''
+      }
+      runHook postBuild
+    '';
+    installPhase = "touch $out";
+  };
 }

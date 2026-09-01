@@ -132,6 +132,14 @@
     substitutions = {
       libclang = (lib.getLib clang.cc);
       inherit clang;
+      targetFlag = lib.optionalString (
+        stdenv.targetPlatform != stdenv.hostPlatform
+      ) "--target=${stdenv.targetPlatform.config}";
+    };
+    passthru.tests = {
+      test = tests.rust-hooks.bindgenHook;
+      ${if stdenv.hostPlatform.isLinux then "testCross" else null} =
+        pkgsCross.riscv64.tests.rust-hooks.bindgenHook;
     };
     meta.license = lib.licenses.mit;
   } ./rust-bindgen-hook.sh;
